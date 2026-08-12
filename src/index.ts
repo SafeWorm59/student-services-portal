@@ -55,8 +55,76 @@ const sampleStudent: Student = {
 console.log('\nFormatted Student:');
 console.log(formatStudent(sampleStudent));
 
+// ============================================
+// STUDENT STATUS FORMATTER
+// ============================================
+
+/**
+ * Type definition for student status
+ * Restricts values to only "active" or "inactive"
+ */
+type StudentStatus = 'active' | 'inactive';
+
+/**
+ * Converts a student status to a user-friendly label
+ *
+ * @param status - The student's status ("active" or "inactive")
+ * @returns A formatted label string
+ *
+ * @example
+ * getStudentStatusLabel("active") // Returns "Active Student"
+ * getStudentStatusLabel("inactive") // Returns "Inactive Student"
+ *
+ * @throws {Error} If status is not "active" or "inactive"
+ */
+function getStudentStatusLabel(status: StudentStatus): string {
+  // Runtime validation
+  if (status !== 'active' && status !== 'inactive') {
+    throw new Error(`Invalid status: "${status}". Status must be "active" or "inactive"`);
+  }
+
+  // Return the formatted label
+  return status === 'active' ? 'Active Student' : 'Inactive Student';
+}
+
+// ============================================
+// TEST THE STATUS FORMATTER
+// ============================================
+
+console.log('\n--- Status Formatter Tests ---');
+
+// Test valid statuses
+try {
+  console.log(`✅ "active" → "${getStudentStatusLabel('active')}"`);
+  // Expected: "active" → "Active Student"
+} catch (error) {
+  if (error instanceof Error) {
+    console.log(`❌ Error: ${error.message}`);
+  }
+}
+
+try {
+  console.log(`✅ "inactive" → "${getStudentStatusLabel('inactive')}"`);
+  // Expected: "inactive" → "Inactive Student"
+} catch (error) {
+  if (error instanceof Error) {
+    console.log(`❌ Error: ${error.message}`);
+  }
+}
+
+// Test invalid status (should throw error)
+try {
+  // @ts-expect-error - Testing invalid status
+  console.log(`Testing "pending": ${getStudentStatusLabel('pending')}`);
+  console.log('❌ This should have thrown an error!');
+} catch (error) {
+  if (error instanceof Error) {
+    console.log(`✅ Caught invalid status: ${error.message}`);
+  }
+}
+
 // Export if you need to use in other files
-export { Student, formatStudent };
+export { Student, formatStudent, getStudentStatusLabel };
 
 // ============================================
 // RUNTIME VALIDATION FUNCTION - FIXED
@@ -178,6 +246,31 @@ try {
     console.log('✅ Caught invalid status:', error.message);
   } else {
     console.log('✅ Caught invalid status:', String(error));
+  }
+}
+
+// Additional edge case tests
+console.log('\n--- Edge Case Tests ---');
+
+// Test with uppercase values (should fail)
+try {
+  // @ts-expect-error - Testing uppercase
+  console.log(`Testing "ACTIVE": ${getStudentStatusLabel('ACTIVE')}`);
+  console.log('❌ This should have failed!');
+} catch (error) {
+  if (error instanceof Error) {
+    console.log(`✅ Caught uppercase status: ${error.message}`);
+  }
+}
+
+// Test with empty string (should fail)
+try {
+  // @ts-expect-error - Testing empty string
+  console.log(`Testing "": ${getStudentStatusLabel('')}`);
+  console.log('❌ This should have failed!');
+} catch (error) {
+  if (error instanceof Error) {
+    console.log(`✅ Caught empty status: ${error.message}`);
   }
 }
 

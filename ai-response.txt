@@ -1,0 +1,56 @@
+/**
+ * Represents the allowed student status values.
+ */
+export type StudentStatus = 'active' | 'inactive';
+
+/**
+ * Converts a student status into a human-readable label.
+ *
+ * @param status - The student status to convert.
+ * @returns A readable label such as 'Active Student' or 'Inactive Student'.
+ *
+ * @throws {TypeError}
+ * Thrown when the provided value is not a string.
+ *
+ * @throws {Error}
+ * Thrown when the string is not a valid student status.
+ *
+ * @example
+ * getStudentStatusLabel('active');
+ * // 'Active Student'
+ *
+ * @example
+ * getStudentStatusLabel('inactive');
+ * // 'Inactive Student'
+ */
+export function getStudentStatusLabel(status: unknown): string {
+  // Runtime type validation
+  if (typeof status !== 'string') {
+    throw new TypeError('Student status must be a string.');
+  }
+
+  // Runtime value validation
+  if (!isStudentStatus(status)) {
+    throw new Error(
+      \`Invalid student status: \${status}. Expected 'active' or 'inactive'.\`
+    );
+  }
+
+  switch (status) {
+    case 'active':
+      return 'Active Student';
+
+    case 'inactive':
+      return 'Inactive Student';
+  }
+}
+
+/**
+ * Type guard that checks whether a value is a valid StudentStatus.
+ *
+ * @param value - Value to check.
+ * @returns True if the value is 'active' or 'inactive'.
+ */
+function isStudentStatus(value: string): value is StudentStatus {
+  return value === 'active' || value === 'inactive';
+}
