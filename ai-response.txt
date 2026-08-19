@@ -1,3 +1,16 @@
+========================================
+AI TOOL: ChatGPT (GPT-4)
+========================================
+
+--- PROMPT USED ---
+
+"Suggest a TypeScript implementation for converting a student's active/inactive
+status into a readable label. The status values are 'active' and 'inactive'.
+The output should be 'Active Student' for active and 'Inactive Student' for
+inactive. Handle invalid input safely. Do not use the any type."
+
+--- AI RESPONSE ---
+
 /**
  * Represents the allowed student status values.
  */
@@ -32,7 +45,7 @@ export function getStudentStatusLabel(status: unknown): string {
   // Runtime value validation
   if (!isStudentStatus(status)) {
     throw new Error(
-      \`Invalid student status: \${status}. Expected 'active' or 'inactive'.\`
+      `Invalid student status: ${status}. Expected 'active' or 'inactive'.`
     );
   }
 
