@@ -195,3 +195,31 @@ However, TypeScript interfaces are **erased at runtime** — they exist only in 
 | `build/`, `coverage/` | Additional build outputs and test coverage reports |
 | `logs/` | Directory for structured log files |
 | `package-lock.json`, `yarn.lock` | Lock files — excluded here to avoid platform-specific conflicts, though this is a project decision |
+
+---
+
+## Laboratory Reflection
+
+1. **What was the most important difference between your previous programming workflow and the Git/GitHub workflow used in this laboratory?**
+   The most important difference was the shift from saving files locally to using a structured version-control workflow with feature branches, commits, and pull requests. Previously I would save a file and call it done; now every change is committed with a descriptive message, isolated on a branch, and reviewed before merging. This makes the development history traceable and enables safe collaboration, which was entirely absent from my previous workflow.
+
+2. **Why was the feature branch useful?**
+   The feature branch was useful because it isolated the student-status formatter work from the stable master branch, preventing untested code from affecting the main codebase. It also enabled the pull request workflow, where changes can be reviewed and discussed before being merged. Finally, it made it easy to track exactly what code belonged to the feature versus the initial project setup.
+
+3. **Did the AI provide any suggestion that required modification? Explain.**
+   Yes, the AI suggested using unknown as the parameter type for getStudentStatusLabel, but I modified it to use the StudentStatus union type because the function is only called internally from TypeScript code that already enforces the type. I also replaced the AI's switch statement with a ternary expression for conciseness, since there are only two values to handle. The runtime guard was kept as a defensive fallback. I rejected the unknown approach for this function (but kept it for alidateStudent where it is appropriate for external data).
+
+4. **How did TypeScript help detect or prevent a possible problem?**
+   TypeScript's type narrowing caught invalid status values at compile time � the @ts-expect-error tests confirmed that passing 'pending', 'ACTIVE', or '' produces compile errors. The StudentStatus union type ensured that only 'active' or 'inactive' could be passed, and the strict 	sconfig.json configuration enforced strict null checks and type safety throughout. Without TypeScript, these errors would only surface at runtime.
+
+5. **Why was runtime validation still necessary?**
+   TypeScript interfaces are erased at runtime, so they cannot validate data that comes from an external API or user input. The alidateStudent function accepts unknown and performs runtime checks on each field (id is a number, name is a non-empty string, status is 'active' or 'inactive') before returning a typed Student object. Without this runtime validation, an API response like { id: '1', name: 42, status: 'pending' } would pass TypeScript's checks and cause subtle bugs at runtime.
+
+6. **What information should never be placed in the repository?**
+   Secrets such as API keys, database passwords, environment variables (`.env`), OAuth tokens, and private keys must never be committed. Build artifacts like `dist/` and dependency caches like `node_modules/` should also be excluded, as they are regenerable and bloat the repository. The `.gitignore` ensures all of these are properly excluded.
+
+7. **Which step of: Ask to Understand to Review to Modify to Test to Verify to Commit was the most important to you? Explain your answer.**
+   **Review** was the most important step. The AI provided a well-structured suggestion using unknown and type guards, but the Review step forced me to critically evaluate whether that approach was the best fit for this specific function. By understanding the AI's code thoroughly, I was able to make an informed decision to modify the parameter type and simplify the implementation, rather than blindly accepting a suggestion that didn't fully match the project's conventions.
+
+8. **How could this workflow improve a group software-development project?**
+   This workflow improves group projects by enforcing feature isolation through branches, which prevents conflicts and keeps the main branch stable. Code reviews catch bugs and knowledge gaps before code is merged, while linting and formatting ensure consistency across contributors. The structured commit history and pull request discussions create documentation of decisions, and linking issues to PRs makes progress transparent to all team members.
