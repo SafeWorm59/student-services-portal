@@ -12,6 +12,20 @@ A TypeScript-based web application for managing university student services. Thi
 - TypeScript (v5.x)
 - A GitHub account
 
+## Development Environment
+
+The following software versions were verified during the laboratory:
+
+| Tool | Version |
+|------|---------|
+| Git | 2.47.0.windows.2 |
+| Node.js | v24.14.0 |
+| npm | 11.9.0 |
+| TypeScript | 5.7.2 |
+| pnpm | Not installed (npm used instead) |
+| ESLint | 8.57.1 |
+| Prettier | 3.9.6 |
+
 ## Installation Instructions
 
 1. Clone the repository:
